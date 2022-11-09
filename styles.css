@@ -1,0 +1,148 @@
+body {
+    color: #282c3f;
+    font-family: ProximaNova,arial,Helvetica Neue,sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.container {
+    padding: 2rem 1rem 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.logo {
+    width: auto;
+    max-width: 180px;
+}
+
+#cvshd,
+#cvs,
+#downloadlink {
+    display: none;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -.45px;
+    margin: 0 0 20px 0;
+    display: inline-block;
+}
+p{
+    color: #7e808c;
+    line-height: 1.2;
+    font-weight: 300;
+    font-size: inherit;
+}
+
+.btn {
+    background-color: #FC8018;
+    color: white;
+    border: none;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%);
+    cursor: pointer;
+    height: 60px;
+    line-height: 60px;
+    width: 140px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .53px;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+label {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    cursor: pointer;
+}
+label span {
+    color: #a9abb2;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+input[type=text],
+select {
+    all: unset;
+    display: block;
+    font-family:inherit;
+    font-weight: 500;
+    border-bottom: 1px solid #BEBFC4;
+    transition: border-color 195ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    height: 40px;
+    min-height: 40px;
+    margin-bottom: 2rem;
+    width: 100%;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+input[type=text]:focus,
+select:focus,
+input[type=text]:hover,
+select:hover {
+    border-bottom-color: #FC8018;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: transparent !important;
+}
+
+select {
+    display: flex;
+    align-items: flex-end;
+}
+
+.plus-icon {
+    position: relative;
+}
+
+.plus-icon span {
+    position: absolute;
+    right: 0;
+    font-size: 26px;
+    top: 50%;
+    transform: translateY(-10px);
+    color: #FC8018;
+    z-index: -1;
+}
+
+#imgs {
+    margin: 1.5rem 0;
+    max-width: 100%
+}
+
+#imgs img {
+    width: 100%;
+    max-width: 600px;
+}
+
+
+
+@media (max-width: 700px) {
+    h1 {
+        font-size: 1.5rem;
+        line-height: 1.2;
+    }
+    
+    p {
+        font-size: 15px;
+        line-height: 1.4;
+    }
+
+    input[type=text],
+    select {
+        font-size: 15px;
+    }
+}

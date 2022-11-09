@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+    <title>Zoom Virtual Background Generator | Columbia Business School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="utf-8" />
+    <script src="canvas2image.js"></script>
+    <link rel="stylesheet" href="https://use.typekit.net/uwc5dga.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <div class="container"><img src="SwiggyLogo.png" class="logo" alt="Swiggy logo"></div>
+</header>
+
+<div class="background-gererator">
+    <div class="container">
+        <canvas width="1920" height="1080" id="cvshd"></canvas>
+        <canvas width="1600" height="1200" id="cvs"></canvas>
+
+        <h1>Virtual meet background generator</h1>
+        <div id="background">
+            <form>
+                <label>
+                    <span>First Name</span>
+                    <input type="text" id="first" placeholder="First Name" tabindex="1">
+                </label>
+                <label>
+                    <span>Last Name</span>
+                    <input type="text" id="last" placeholder="Last Name" tabindex="2">
+                </label>
+                 <label>
+                    <span>Department Name</span>
+                    <div class="plus-icon">
+                    <select name="department" id="department">
+                        <option disabled selected value>Select your Department</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Human Resource">Human Resource</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Future of Work">Future of Work</option>
+                    </select>
+                    <span>+</span>
+                    </div>
+                </label>
+                <label>
+                    <span>Image Size</span><br/>
+                    <input type="radio" id="optionHD" name="imageStyle" value="HD" checked="checked">
+                    <label for="optionHD">HD</label>
+                    <input type="radio" id="option43" name="imageStyle" value="43">
+                    <label for="option43">4:3</label>
+                </label>
+                <div id="explanation" style="display:none">
+                    <p>After you are happy with your new virtual background use the "Save" button below to save it to your local machine. Set it as your virtual background in your Zoom settings.</p>
+                </div>
+                
+                <div id="imgs"></div>
+
+                <div class="submit-buttom">
+                    <button id="createimage" class="btn" tabindex="3">Save Image</button>
+                </div>
+            </form>
+        </div>
+    
+        <a id="downloadlink" download="Swiggy-zoom-background.jpg" href="">Download Background</a>
+        <img src="Swiggy-Logo-bottom.png" style="display:none;" id="mark"> 
+    </div>
+</div>
+<script>
+    var canvas, canvashd, ctxorig, ctxhd,
+        $createimage, $optionHD, $option43,
+        $imgs,
+        $first, $last, $department, $background
+
+    function init () {
+        canvas = document.getElementById('cvs');
+        canvashd = document.getElementById('cvshd');
+
+        ctxorig = canvas.getContext('2d');
+        ctxhd = canvashd.getContext('2d');
+       
+        $createimage = document.getElementById('createimage');
+        $optionHD = document.getElementById('optionHD');
+        $option43 = document.getElementById('option43');
+
+        $imgs = document.getElementById('imgs');
+
+        $first =document.getElementById('first');
+        $last = document.getElementById('last');
+        $department = document.getElementById('department');
+        $background = document.getElementById('background');
+
+        var queryString = window.location.search;
+        var urlParams = new URLSearchParams(queryString);
+        var firstVal  = urlParams.get('first');
+        var lastVal = urlParams.get('last');
+
+        if (firstVal)$first.value = firstVal;
+        if (lastVal)$last.value = lastVal;
+
+        bind();
+
+        if (firstVal && lastVal)
+            updateImage();   
+    }
+
+    function drawHD(){
+        draw(ctxhd, 1920, 1080);
+            document.getElementById('explanation').style="display:block";
+            var type = 'jpg',
+                w = 1920,
+                h = 1080;
+            $imgs.innerHTML = '';
+            $imgs.appendChild(Canvas2Image.convertToImage(canvashd, w, h, type))
+    }
+
+    function draw43(){
+        draw(ctxorig, 1600, 1200);
+            document.getElementById('explanation').style="display:block";
+            var type = 'jpg',
+                w = 1600,
+                h = 1200;
+            $imgs.innerHTML = '';
+            $imgs.appendChild(Canvas2Image.convertToImage(canvas, w, h, type))
+    }   
+
+    function updateImage(){
+        if ($optionHD.checked)
+            drawHD();
+        else
+            draw43();
+    }
+
+    function bind () {
+        $createimage.onclick = function (e) {
+            updateImage();
+            if ($optionHD.checked)
+                Canvas2Image.saveAsImage(canvashd, 1920, 1080, 'jpg');
+            else
+                Canvas2Image.saveAsImage(canvas, 1600, 1200, 'jpg');
+        }
+
+        $last.oninput = function (e) {
+            updateImage();
+        } 
+        $first.oninput = function (e) {
+            updateImage();
+        }
+        $department.onchange = function (e) {
+            updateImage();
+        }
+        $background.onchange = function (e) {
+            updateImage();
+        }
+        $option43.oninput = function (e) {
+            updateImage();
+        }
+        $optionHD.oninput = function (e) {
+            updateImage();
+        }
+    }
+
+    function draw(ctx, w, h) {
+        ctx.font = "bold 100px 'ProximaNova','arial',Helvetica Neue,sans-serif";
+        var radialGrd = ctx.createRadialGradient(w/2, h*.9, 400, w/2, h*.9, h);
+
+        radialGrd.addColorStop(0, "#FC8018"); // Swiggy color
+        radialGrd.addColorStop(1, "#D8561D"); // different color for gradient
+        
+        ctx.fillStyle = radialGrd;
+        ctx.fillRect(0,0,w,h);
+
+        var rightMargin = 40;
+        var topMargin = 0;
+        
+        var firstMeasurement = ctx.measureText($first.value).width;
+
+        // last name will be smaller
+        ctx.font = "bold 100px 'ProximaNova','arial',Helvetica Neue,sans-serif";
+
+        var lastMeasurement = ctx.measureText($last.value).width;
+        var maxWidth = firstMeasurement > lastMeasurement ? firstMeasurement : lastMeasurement;
+
+        ctx.font = "bold 60px 'ProximaNova','arial',Helvetica Neue,sans-serif";
+        var genderMeasurement = ctx.measureText($department.options[$department.selectedIndex].value).width;
+        maxWidth = maxWidth > genderMeasurement ? maxWidth : genderMeasurement;
+
+        var firstLineBase = 160;
+        var secondLineBase = 260;
+        var thirdLineBase = 360;
+
+        ctx.fillStyle = '#FC8018';
+        ctx.fillRect(w - maxWidth - rightMargin, topMargin, 160, 14);
+
+        if($background.selectedIndex == 1)
+            ctx.fillStyle = '#FC8018';
+        else
+             ctx.fillStyle = '#ffffff';
+        // if we only have a first name then we will just use one line
+        if ($last.value.length == 0){
+            ctx.font = "600 100px 'ProximaNova','arial',Helvetica Neue,sans-serif";
+            ctx.fillText($first.value, w - maxWidth - rightMargin, firstLineBase, maxWidth );
+
+        }else{
+           ctx.font = "600 100px 'ProximaNova','arial',Helvetica Neue,sans-serif";
+            ctx.fillText($first.value, w - maxWidth - rightMargin, firstLineBase, maxWidth );
+            ctx.font = "bold 80px 'ProximaNova','arial',Helvetica Neue,sans-serif";
+            ctx.fillText($last.value,  w - maxWidth - rightMargin, secondLineBase, maxWidth );
+        }
+
+        if ($department.selectedIndex > -1) {
+            ctx.font = "600 50px 'ProximaNova','arial',Helvetica Neue,sans-serif";
+            ctx.fillText($department.options[$department.selectedIndex].value,  w - maxWidth - rightMargin, thirdLineBase, maxWidth );
+        }
+		
+		var img = document.getElementById("mark");
+		ctx.drawImage(img, 40, 690, 450, 380);
+    }
+    onload = init;
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"rayId":"5b3e7a41384ce6e0","version":"2020.6.0","si":10}'></script>
+</body>
+</html>
