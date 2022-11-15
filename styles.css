@@ -55,17 +55,36 @@ p{
     text-transform: uppercase;
 }
 
+div.section{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
 label {
     font-weight: 600;
     font-size: 18px;
     line-height: 28px;
     cursor: pointer;
+    display: inline-block;
+    width: 47%;
+    
+}
+label.full-width {
+    width: 100%;
+    
 }
 label span {
     color: #a9abb2;
     text-transform: uppercase;
     font-size: 15px;
     font-weight: 300;
+}
+
+label label {
+    width: auto;
+    margin-right: 20px;
 }
 
 input[type=text],
@@ -131,6 +150,13 @@ select {
 
 
 @media (max-width: 700px) {
+    div.section{
+        flex-direction: column;
+    }
+    label {
+        width: 100%;
+        
+    }
     h1 {
         font-size: 1.5rem;
         line-height: 1.2;

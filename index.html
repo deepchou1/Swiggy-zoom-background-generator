@@ -3,8 +3,8 @@
 <head>
     <title>Zoom Virtual Background Generator | Columbia Business School</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#FC8018">
+    <meta name="theme-color" content="#FC8018">
     <meta charset="utf-8" />
     <script src="canvas2image.js"></script>
     <link rel="stylesheet" href="https://use.typekit.net/uwc5dga.css">
@@ -21,17 +21,20 @@
         <canvas width="1600" height="1200" id="cvs"></canvas>
 
         <h1>Virtual meet background generator</h1>
-        <div id="background">
+        <div>
             <form>
-                <label>
-                    <span>First Name</span>
-                    <input type="text" id="first" placeholder="First Name" tabindex="1">
-                </label>
-                <label>
-                    <span>Last Name</span>
-                    <input type="text" id="last" placeholder="Last Name" tabindex="2">
-                </label>
-                 <label>
+                <div class="section">
+                    <label>
+                        <span>First Name</span>
+                        <input type="text" id="first" placeholder="First Name" tabindex="1">
+                    </label>
+                    <label>
+                        <span>Last Name</span>
+                        <input type="text" id="last" placeholder="Last Name" tabindex="2">
+                    </label>
+                </div>
+
+                <label class="full-width">
                     <span>Department Name</span>
                     <div class="plus-icon">
                     <select name="department" id="department">
@@ -44,13 +47,73 @@
                     <span>+</span>
                     </div>
                 </label>
-                <label>
-                    <span>Image Size</span><br/>
-                    <input type="radio" id="optionHD" name="imageStyle" value="HD" checked="checked">
-                    <label for="optionHD">HD</label>
-                    <input type="radio" id="option43" name="imageStyle" value="43">
-                    <label for="option43">4:3</label>
-                </label>
+
+                <div class="section">
+                    <label>
+                        <span>Background Image</span>
+                        <div class="plus-icon">
+                        <select name="bacgkround" id="background">
+                            <option selected="" value="Default">Default (Swiggy color gradient)</option> 
+                            <option value="img1">Office</option>
+                            <option value="img2">Meeting room</option>
+                            <option value="img3">Library</option>
+                            <option value="img4">Outdoor</option>
+                            <option value="img5">Fun</option>
+                        </select>
+                        <span>+</span>
+                        <img src="1.jpeg" class="bg-image" style="display:none;" id="bg1">
+                        <img src="2.jpeg" class="bg-image" style="display:none;" id="bg2">
+                        <img src="3.jpeg" class="bg-image" style="display:none;" id="bg3">
+                        <img src="4.jpeg" class="bg-image" style="display:none;" id="bg4">
+                        <img src="5.jpeg" class="bg-image" style="display:none;" id="bg5">
+                        </div>
+                    </label>
+                    <label>
+                        <span>Image Size</span><br/>
+                        <input type="radio" id="optionHD" name="imageStyle" value="HD" checked="checked">
+                        <label for="optionHD">HD</label>
+                        <input type="radio" id="option43" name="imageStyle" value="43">
+                        <label for="option43">4:3</label>
+                    </label>
+                </div>
+                <div class="section">
+                    <label>
+                        <span>Text Color</span>
+                        <div class="plus-icon">
+                        <select name="textColor" id="textColor">
+                            <option selected=""  value="White">White</option>
+                            <option value="SwiggColor">Orange (Swiggy color)</option>
+                            <option value="Black">Black</option>
+                            <option value="Green">Green</option>
+                            <option value="Blue">Blue</option>
+                        </select>
+                        <span>+</span>
+                        </div>
+                    </label>
+
+                    <label>
+                        <span>Background occasion set</span>
+                        <div class="plus-icon">
+                        <select name="occasion" id="occasion">
+                            <option selected="" value="NoOccasion">No</option>
+                            <option value="christmas">Christmas</option>
+                            <option value="newYear">New Year</option>
+                            <option value="lohri">Lohri</option>
+                            <option value="holi">Holi</option>
+                            <option value="eid">Eid</option>
+                            <option value="diwali">Diwali</option>
+                        </select>
+                        <span>+</span>
+                        </div>
+                        <img src="christmas.png" class="occasion-image" style="display:none;" id="christmas">
+                        <img src="newYear.png" class="occasion-image" style="display:none;" id="newYear">
+                        <img src="lohri.png" class="occasion-image" style="display:none;" id="lohri">
+                        <img src="holi.png" class="occasion-image" style="display:none;" id="holi">
+                        <img src="eid.png" class="occasion-image" style="display:none;" id="eid">
+                        <img src="diwali.png" class="occasion-image" style="display:none;" id="diwali">
+                    </label>
+                </div>
+
                 <div id="explanation" style="display:none">
                     <p>After you are happy with your new virtual background use the "Save" button below to save it to your local machine. Set it as your virtual background in your Zoom settings.</p>
                 </div>
@@ -64,14 +127,14 @@
         </div>
     
         <a id="downloadlink" download="Swiggy-zoom-background.jpg" href="">Download Background</a>
-        <img src="Swiggy-Logo-bottom.png" style="display:none;" id="mark"> 
+        <img src="Swiggi-logo.png" style="display:none;" id="mark">  
     </div>
 </div>
 <script>
     var canvas, canvashd, ctxorig, ctxhd,
         $createimage, $optionHD, $option43,
-        $imgs,
-        $first, $last, $department, $background
+        $imgs, $occasion,
+        $first, $last, $department, $background, $textColor
 
     function init () {
         canvas = document.getElementById('cvs');
@@ -90,6 +153,8 @@
         $last = document.getElementById('last');
         $department = document.getElementById('department');
         $background = document.getElementById('background');
+        $textColor = document.getElementById('textColor');
+        $occasion = document.getElementById('occasion');
 
         var queryString = window.location.search;
         var urlParams = new URLSearchParams(queryString);
@@ -123,11 +188,11 @@
                 h = 1200;
             $imgs.innerHTML = '';
             $imgs.appendChild(Canvas2Image.convertToImage(canvas, w, h, type))
-    }   
+    } 
 
     function updateImage(){
         if ($optionHD.checked)
-            drawHD();
+           drawHD();
         else
             draw43();
     }
@@ -153,10 +218,16 @@
         $background.onchange = function (e) {
             updateImage();
         }
+        $textColor.onchange = function (e) {
+            updateImage();
+        }
         $option43.oninput = function (e) {
             updateImage();
         }
         $optionHD.oninput = function (e) {
+            updateImage();
+        }
+        $occasion.onchange = function (e) {
             updateImage();
         }
     }
@@ -189,14 +260,56 @@
         var firstLineBase = 160;
         var secondLineBase = 260;
         var thirdLineBase = 360;
-
+        
+        
         ctx.fillStyle = '#FC8018';
+        ctx.shadowColor="white";
+        ctx.shadowBlur= 2;
+        ctx.lineWidth= 10;
+
         ctx.fillRect(w - maxWidth - rightMargin, topMargin, 160, 14);
 
-        if($background.selectedIndex == 1)
+        if($textColor.selectedIndex == 1){
             ctx.fillStyle = '#FC8018';
-        else
-             ctx.fillStyle = '#ffffff';
+        }
+        else if ($textColor.selectedIndex == 2){
+            ctx.fillStyle = '#282c3f';
+        }
+        else if ($textColor.selectedIndex == 3){
+            ctx.fillStyle = '#005162';
+        }
+        else if ($textColor.selectedIndex == 4){
+            ctx.fillStyle = '#00bfff';
+        }
+        else {
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor="#FC8018";
+        }
+
+        if($background.selectedIndex == 1){
+            var back1 = document.getElementById("bg1")
+            ctx.drawImage(back1, 0, 0, 1920, 1200);
+        }
+        else if ($background.selectedIndex == 2){
+            var back2 = document.getElementById("bg2")
+            ctx.drawImage(back2, 0, 0, 1920, 1200);
+        }
+        else if ($background.selectedIndex == 3){
+            var back3 = document.getElementById("bg3")
+            ctx.drawImage(back3, 0, 0, 1920, 1200);
+        }
+        else if ($background.selectedIndex == 4){
+            var back4 = document.getElementById("bg4")
+            ctx.drawImage(back4, 0, 0, 1920, 1200);
+        }
+        else if ($background.selectedIndex == 5){
+            var back5 = document.getElementById("bg5")
+            ctx.drawImage(back5, 0, 0, 1920, 1200);
+        }
+        else {
+            document.getElementsByClassName('bg-image').style="display:none";
+        }
+
         // if we only have a first name then we will just use one line
         if ($last.value.length == 0){
             ctx.font = "600 100px 'ProximaNova','arial',Helvetica Neue,sans-serif";
@@ -215,7 +328,35 @@
         }
 		
 		var img = document.getElementById("mark");
-		ctx.drawImage(img, 40, 690, 450, 380);
+		ctx.drawImage(img, 40, 690, 380, 380);
+
+        if($occasion.selectedIndex == 1){
+            var occasion = document.getElementById("christmas")
+            ctx.drawImage(occasion, 40, 40, 450, 380);
+        }
+        else if ($occasion.selectedIndex == 2){
+            var occasion2 = document.getElementById("newYear")
+            ctx.drawImage(occasion2, 40, 40, 450, 380);
+        }
+        else if ($occasion.selectedIndex == 3){
+            var occasion3 = document.getElementById("lohri")
+            ctx.drawImage(occasion3, 40, 40, 450, 380);
+        }
+        else if ($occasion.selectedIndex == 4){
+            var occasion4 = document.getElementById("holi")
+            ctx.drawImage(occasion4, 40, 40, 450, 380);
+        }
+        else if ($occasion.selectedIndex == 5){
+            var occasion5 = document.getElementById("eid")
+            ctx.drawImage(occasion5, 40, 40, 450, 380);
+        }
+        else if ($occasion.selectedIndex == 6){
+            var occasion6 = document.getElementById("diwali")
+            ctx.drawImage(occasion6, 40, 40, 450, 380);
+        }
+        else {
+            document.getElementsByClassName('occasion-image').style="display:none";
+        }
     }
     onload = init;
 </script>
